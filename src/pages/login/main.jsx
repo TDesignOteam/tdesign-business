@@ -7,6 +7,7 @@ import axiosInstance from '@/utils/request';
 import App from './App.vue';
 import router from '@/router';
 import zhConfig from 'tdesign-vue/es/locale/zh_CN';
+import'@wecity/tdesign-gov-vue/dist/index.css';
 // import enConfig from 'tdesign-vue/es/locale/en_US'; // 英文多语言配置
 
 import 'tdesign-vue/es/style/index.css';
@@ -40,7 +41,7 @@ new Vue({
   store,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   render: (h) => (
-    <div>
+    <div  class="tdgv-wrapper">
       {/* 可以通过config-provider提供全局（多语言、全局属性）配置，如 
       <t-config-provider globalConfig={enConfig}> */}
       <t-config-provider globalConfig={zhConfig}>
