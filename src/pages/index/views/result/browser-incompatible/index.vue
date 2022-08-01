@@ -46,10 +46,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  top: 175px;
+  top: 112px;
   padding: 24px 48px;
   width: 640px;
-  background: var(--td-bg-color-container);
+  background: #F3F3F3;
   box-shadow: 0px 1px 2px var(--td-shadow-1);
   border-radius: 3px;
 }

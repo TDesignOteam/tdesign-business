@@ -29,7 +29,10 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 75vh;
+  min-height: 828px;
+  height: calc(100vh - 156px);
+
+  background: #ffffff;
 
   &-icon {
     font-size: 72px;

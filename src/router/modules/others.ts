@@ -24,7 +24,7 @@ export default [
     children: [
       {
         path: 'index',
-        redirect: '/login', 
+        redirect: '/login',
         component: () => import('@/layouts/blank.vue'),
         meta: { title: '登录中心' },
       },

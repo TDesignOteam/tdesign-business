@@ -1,7 +1,159 @@
-import { ViewModuleIcon, Edit1Icon, LayersIcon } from 'tdesign-icons-vue';
+import {
+  ViewModuleIcon,
+  Edit1Icon,
+  LayersIcon,
+  InternetIcon,
+  DashboardIcon,
+  BrowseIcon,
+  CreditcardIcon,
+  RootListIcon,
+  ViewListIcon,
+  UsergroupIcon,
+  UserIcon,
+  NotificationIcon,
+  FilePasteIcon
+} from 'tdesign-icons-vue';
 import Layout from '@/layouts';
 
 export default [
+  {
+    path: '/map-overview',
+    name: 'MapOverview',
+    component: Layout,
+    redirect: '/map-overview',
+    meta: { title: '地图概括', icon: InternetIcon },
+    children: [
+      {
+        path: '/',
+        name: 'overview',
+        component: () => import('@/pages/index/views/map-overview/index.vue'),
+        // meta: { title: '选择器' },
+      },
+    ],
+  },
+  {
+    path: '/operational-efficiency',
+    name: 'OperationalEfficiency',
+    component: Layout,
+    redirect: '/operational-efficiency',
+    meta: { title: '运营效能', icon: DashboardIcon },
+    children: [
+      {
+        path: '/',
+        name: 'efficiency',
+        component: () => import('@/pages/index/views/map-overview/index.vue'),
+        // meta: { title: '选择器' },
+      },
+    ],
+  },
+  {
+    path: '/monitor-management',
+    name: 'MonitorManagement',
+    component: Layout,
+    redirect: '/monitor-management',
+    meta: { title: '监控管理', icon: BrowseIcon },
+    children: [
+      {
+        path: '/',
+        name: 'management',
+        component: () => import('@/pages/index/views/map-overview/index.vue'),
+        // meta: { title: '选择器' },
+      },
+    ],
+  },
+  {
+    path: '/card-form',
+    name: 'CardForm',
+    component: Layout,
+    redirect: '/card-form',
+    meta: { title: '卡片表单', icon: CreditcardIcon },
+    children: [
+      {
+        path: '/',
+        name: 'Form',
+        component: () => import('@/pages/index/views/map-overview/index.vue'),
+        // meta: { title: '选择器' },
+      },
+    ],
+  },
+  {
+    path: '/form-stap',
+    name: 'FormStep',
+    component: Layout,
+    meta: { title: '分步表单', icon: RootListIcon },
+    children: [
+      {
+        path: '/',
+        name: 'Step',
+        component: () => import('@/pages/index/views/form/step/index.vue'),
+      },
+    ],
+  },
+  {
+    path: '/list-tree',
+    name: 'ListTree',
+    component: Layout,
+    meta: { title: '树状列表', icon: ViewListIcon },
+    children: [
+      {
+        path: '/',
+        name: 'Step',
+        component: () => import('@/pages/index/views/list/tree/index.vue'),
+      },
+    ],
+  },
+  {
+    path: '/member-group',
+    name: 'MemberGroup',
+    component: Layout,
+    meta: { title: '成员分组', icon: UsergroupIcon },
+    children: [
+      {
+        path: '/',
+        name: 'group',
+        component: () => import('@/pages/index/views/map-overview/index.vue'),
+      },
+    ],
+  },
+  {
+    path: '/role-permissions',
+    name: 'Role-Permissions',
+    component: Layout,
+    meta: { title: '角色权限', icon: UserIcon },
+    children: [
+      {
+        path: '/',
+        name: 'permissions',
+        component: () => import('@/pages/index/views/map-overview/index.vue'),
+      },
+    ],
+  },
+  {
+    path: '/station-letter',
+    name: 'Station-Letter',
+    component: Layout,
+    meta: { title: '站内信', icon: NotificationIcon },
+    children: [
+      {
+        path: '/',
+        name: 'Letter',
+        component: () => import('@/pages/index/views/map-overview/index.vue'),
+      },
+    ],
+  },
+  {
+    path: '/log-query',
+    name: 'Log-Query',
+    component: Layout,
+    meta: { title: '日志查询', icon: FilePasteIcon },
+    children: [
+      {
+        path: '/',
+        name: 'query',
+        component: () => import('@/pages/index/views/map-overview/index.vue'),
+      },
+    ],
+  },
   {
     path: '/list',
     name: 'list',
