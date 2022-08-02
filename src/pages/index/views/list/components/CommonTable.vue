@@ -237,7 +237,6 @@ export default {
 @import '@/style/variables.less';
 
 .list-common-table {
-  height: calc(100vh - 140px);
   background-color: var(--td-bg-color-container);
   padding: 24px 24px 2px;
   border-radius: @border-radius;

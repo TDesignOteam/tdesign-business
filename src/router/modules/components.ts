@@ -129,15 +129,15 @@ export default [
     ],
   },
   {
-    path: '/station-letter',
-    name: 'Station-Letter',
+    path: '/station-message',
+    name: 'Station-Message',
     component: Layout,
     meta: { title: '站内信', icon: NotificationIcon },
     children: [
       {
         path: '/',
-        name: 'Letter',
-        component: () => import('@/pages/index/views/map-overview/index.vue'),
+        name: 'message',
+        component: () => import('@/pages/index/views/station-message/index.vue'),
       },
     ],
   },
