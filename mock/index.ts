@@ -80,6 +80,28 @@ export default [
     }),
   },
   {
+    url: '/api/get-log-list',
+    method: 'get',
+    response: () => ({
+      code: 0,
+      data: {
+        ...Mock.mock({
+          'list|1-100': [
+            {
+              'index|+1': 1,
+              'status|1': '@natural(0, 1)',
+              number: '@natural(01, 100)',
+              account: '@natural(01, 100)@qq.com',
+              ip:'@natural(10, 180).@natural(10, 180).@natural(10, 180).@natural(10, 180)',
+              op:'@natural(0, 2)',
+              opTime: '@date("yyyy-MM-dd") @date("HH:mm:ss")',
+            },
+          ],
+        }),
+      },
+    }),
+  },
+  {
     url: '/api/detail-basic',
     method: 'get',
     response: () => ({

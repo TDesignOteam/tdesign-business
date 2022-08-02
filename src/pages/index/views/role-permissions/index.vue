@@ -69,7 +69,6 @@ import {
 export default {
   name: 'list-table',
   components: {
-    SearchIcon,
     AddIcon
   },
   data() {
@@ -142,6 +141,7 @@ export default {
         defaultPageSize: 20,
         total: 100,
         defaultCurrent: 1,
+        showJumper: true,
       },
       confirmVisible: false,
       deleteIdx: -1,
@@ -225,6 +225,7 @@ export default {
 @import '@/style/variables.less';
 
 .list-common-table {
+  height: calc(100vh - 140px);
   background-color: var(--td-bg-color-container);
   padding: 24px 24px 2px;
   border-radius: @border-radius;

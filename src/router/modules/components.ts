@@ -150,7 +150,7 @@ export default [
       {
         path: '/',
         name: 'query',
-        component: () => import('@/pages/index/views/map-overview/index.vue'),
+        component: () => import('@/pages/index/views/log-query/index.vue'),
       },
     ],
   },
