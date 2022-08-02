@@ -1,24 +1,18 @@
 <template>
   <div class="list-common-table">
-    <div class="list-title-wrapper">
-      <span>全部图层</span>
-    </div>
     <div class="operate-wrapper">
-      <div class="search-input">
-        <t-input placeholder="请输入关键词">
-          <search-icon slot="suffix-icon" size="20px" />
-        </t-input>
-      </div>
+      <t-form layout="inline" labelAlign="left">
+        <t-form-item label="角色名称" name="name">
+          <t-input placeholder="请输入角色名称" />
+        </t-form-item>
+        <t-form-item label="角色名称" name="name" initialData="TDesign">
+          <t-input placeholder="请输入角色编码" />
+        </t-form-item>
+      </t-form>
       <div class="button-group">
         <t-button theme="primary">
           <add-icon slot="icon"/>
-          新增图层
-        </t-button>
-        <t-button theme="base">
-          导入图层
-        </t-button>
-        <t-button theme="base">
-          去地图预览
+          创建角色
         </t-button>
       </div>
     </div>
@@ -26,7 +20,7 @@
       <t-table
         :data="data"
         :columns="columns"
-        :height="$getFirstLevelTableHeight() + 24"
+        :maxHeight="$getFirstLevelTableHeight() + 74"
         :rowKey="rowKey"
         :verticalAlign="verticalAlign"
         :hover="hover"
@@ -42,8 +36,9 @@
           <t-tag v-if="row.status === PERSON_STATUS.ENABLE" theme="success" variant="light">启用</t-tag>
         </template>
         <template #op="{ row }">
-          <a class="t-button-link" @click="rehandleClickOp(row)">预览</a>
-          <a class="t-button-link" @click="rehandleClickOp(row)">编辑</a>
+          <a class="t-button-link" @click="rehandleClickOp(row)">关联功能授权</a>
+          <a v-if="row.status === PERSON_STATUS.DISABLE" class="t-button-link" @click="rehandleClickOp(row)">启用</a>
+          <a v-if="row.status === PERSON_STATUS.ENABLE" class="t-button-link" @click="rehandleClickOp(row)">禁用</a>
           <a class="t-button-link" @click="handleClickDelete(row)">删除</a>
         </template>
       </t-table>
@@ -104,36 +99,30 @@ export default {
           colKey: 'number',
         },
         {
-          title: '图层名称',
+          title: '角色名称',
           fixed: 'left',
-          width: 274,
+          width: 160,
           align: 'left',
           ellipsis: true,
           colKey: 'name',
         },
         {
-          title: '图层ID',
+          title: '角色编码',
           fixed: 'left',
           width: 180,
           align: 'left',
           ellipsis: true,
-          colKey: 'id',
+          colKey: 'code',
         },
         {
-          title: '图层数',
+          title: '角色描述',
           fixed: 'left',
-          width: 100,
+          width: 328,
           align: 'left',
           ellipsis: true,
-          colKey: 'count1',
-        },{
-          title: '图层数',
-          fixed: 'left',
-          width: 100,
-          align: 'left',
-          ellipsis: true,
-          colKey: 'count2',
+          colKey: 'description',
         },
+        { title: '状态', colKey: 'status', width: 130, cell: { col: 'status' } },
         {
           align: 'left',
           fixed: 'right',
@@ -162,7 +151,7 @@ export default {
     confirmBody() {
       if (this.deleteIdx > -1) {
         const { name } = this.data?.[this.deleteIdx];
-        return `删除后，${name}的所有地图信息将被清空，且无法恢复`;
+        return `删除后，${name}的所有合同信息将被清空，且无法恢复`;
       }
       return '';
     },
@@ -173,7 +162,7 @@ export default {
   mounted() {
     this.dataLoading = true;
     this.$request
-      .get('/api/get-map-list')
+      .get('/api/get-list')
       .then((res) => {
         if (res.code === 0) {
           const { list = [] } = res.data;
@@ -261,8 +250,8 @@ export default {
   }
 }
 .t-button + .t-button {
-    margin-left: @spacer;
- }
+  margin-left: @spacer;
+}
 
 .list-title {
   &-wrapper{
@@ -285,6 +274,7 @@ export default {
 
 .operate-wrapper {
   display: flex;
+  margin-bottom: 16px;
   .search-input {
     width: 240px;
     margin-bottom: 16px;

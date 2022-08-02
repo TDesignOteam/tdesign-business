@@ -7,11 +7,19 @@
           <t-button variant="base" theme="default" :disabled="!selectedRowKeys.length"> 导出合同 </t-button>
           <p v-if="!!selectedRowKeys.length" class="selected-count">已选{{ selectedRowKeys.length }}项</p>
         </div>
-        <t-input v-model="searchValue" class="search-input" placeholder="请输入你需要搜索的内容" clearable>
-          <template #suffix-icon>
-            <search-icon size="20px" />
-          </template>
-        </t-input>
+        <div class="operate-wrapper">
+          <t-input v-model="searchValue" class="search-input" placeholder="请输入你需要搜索的内容" clearable>
+            <template #suffix-icon>
+              <search-icon size="20px" />
+            </template>
+          </t-input>
+          <div class="button-group">
+            <t-button theme="primary">
+              <add-icon slot="icon"/>
+              新建
+            </t-button>
+          </div>
+        </div>
       </t-row>
 
       <div class="table-container">
@@ -72,7 +80,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import { SearchIcon } from 'tdesign-icons-vue';
+import { SearchIcon, AddIcon } from 'tdesign-icons-vue';
 import Trend from '@/components/trend/index.vue';
 import { prefix } from '@/config/global';
 
@@ -257,8 +265,14 @@ export default Vue.extend({
   }
 }
 
-.search-input {
-  width: 360px;
+.operate-wrapper {
+  display: flex;
+  .search-input {
+    width: 360px;
+  }
+  .button-group {
+    display: flex;
+  }
 }
 
 .t-button + .t-button {

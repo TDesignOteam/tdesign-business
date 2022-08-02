@@ -124,7 +124,7 @@ export default [
       {
         path: '/',
         name: 'permissions',
-        component: () => import('@/pages/index/views/map-overview/index.vue'),
+        component: () => import('@/pages/index/views/role-permissions/index.vue'),
       },
     ],
   },

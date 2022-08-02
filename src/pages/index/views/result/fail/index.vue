@@ -29,7 +29,7 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 828px;
-  height: calc(100vh - 156px);
+  height: calc(100vh - 140px);
   background: #ffffff;
 
   &-icon {

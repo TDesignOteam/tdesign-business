@@ -42,14 +42,37 @@ export default [
           'list|1-100': [
             {
               'index|+1': 1,
-              'status|1': '@natural(0, 4)',
-              no: 'BH00@natural(01, 100)',
-              name: '@city()办公用品采购项目',
+              'status|1': '@natural(0, 1)',
+              number: '@natural(01, 100)',
+              name: '@cname()',
+              code:'ROLE_@natural(01, 100)',
+              description:'受理人员',
               'paymentType|1': '@natural(0, 1)',
               'contractType|1': '@natural(0, 2)',
               updateTime: '2020-05-30 @date("HH:mm:ss")',
-              amount: '@natural(10, 500),000,000',
-              adminName: '@cname()',
+            },
+          ],
+        }),
+      },
+    }),
+  },
+  {
+    url: '/api/get-map-list',
+    method: 'get',
+    response: () => ({
+      code: 0,
+      data: {
+        ...Mock.mock({
+          'list|1-100': [
+            {
+              'index|+1': 1,
+              'status|1': '@natural(0, 1)',
+              number: '@natural(01, 100)',
+              name: '学校',
+              id:'MAP_@natural(01, 100)',
+              count1: '@natural(01, 100)',
+              count2: '@natural(01, 100)',
+              updateTime: '2020-05-30 @date("HH:mm:ss")',
             },
           ],
         }),

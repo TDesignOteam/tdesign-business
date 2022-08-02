@@ -88,7 +88,7 @@ export default Vue.extend({
 
   &-container {
     min-height: 828px;
-    height: calc(100vh - 156px);
+    height: calc(100vh - 140px);
     display: flex;
     flex-direction: column;
     align-items: center;

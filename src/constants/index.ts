@@ -11,6 +11,12 @@ export const CONTRACT_STATUS = {
   FINISH: 4,
 };
 
+// 人员状态枚举
+export const PERSON_STATUS = {
+  DISABLE: 0,
+  ENABLE: 1,
+};
+
 export const CONTRACT_STATUS_OPTIONS: Array<IOption> = [
   { value: CONTRACT_STATUS.FAIL, label: '审核失败' },
   { value: CONTRACT_STATUS.AUDIT_PENDING, label: '待审核' },

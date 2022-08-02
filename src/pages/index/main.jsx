@@ -4,11 +4,14 @@ import { sync } from 'vuex-router-sync';
 import TDesign from 'tdesign-vue';
 import Aegis from 'aegis-web-sdk';
 import VueClipboard from 'vue-clipboard2';
+import zhConfig from 'tdesign-vue/es/locale/zh_CN';
 import axiosInstance from '@/utils/request';
 import App from './App.vue';
 import router from '@/router';
-import zhConfig from 'tdesign-vue/es/locale/zh_CN';
 import'@wecity/tdesign-gov-vue/dist/index.css';
+import { getPageContentHeight, getFirstLevelTableHeight } from '@/utils/height';
+
+
 // import enConfig from 'tdesign-vue/es/locale/en_US'; // 英文多语言配置
 
 import 'tdesign-vue/es/style/index.css';
@@ -48,6 +51,9 @@ Vue.component('t-page-header');
 
 Vue.prototype.$request = axiosInstance;
 
+Vue.prototype.$getPageContentHeight = getPageContentHeight;
+Vue.prototype.$getFirstLevelTableHeight = getFirstLevelTableHeight;
+
 const originPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
   return originPush.call(this, location).catch((err) => err);
@@ -66,7 +72,7 @@ new Vue({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   render: (h) => (
     <div  class="tdgv-wrapper">
-      {/* 可以通过config-provider提供全局（多语言、全局属性）配置，如 
+      {/* 可以通过config-provider提供全局（多语言、全局属性）配置，如
       <t-config-provider globalConfig={enConfig}> */}
       <t-config-provider globalConfig={zhConfig}>
         <App />
