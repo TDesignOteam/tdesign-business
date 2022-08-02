@@ -111,7 +111,7 @@ export default [
       {
         path: '/',
         name: 'group',
-        component: () => import('@/pages/index/views/map-overview/index.vue'),
+        component: () => import('@/pages/index/views/member-group/index.vue'),
       },
     ],
   },
