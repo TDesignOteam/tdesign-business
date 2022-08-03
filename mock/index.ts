@@ -126,6 +126,30 @@ export default [
     }),
   },
   {
+    url: '/api/get-message-list',
+    method: 'get',
+    response: () => ({
+      code: 0,
+      data: {
+        ...Mock.mock({
+          'list|1-100': [
+            {
+              'index|+1': 1,
+              'status|1': '@natural(0, 1)',
+              module: '融合通信@natural(01, 100)',
+              type1: '新消息提醒@natural(01, 100)',
+              type2: '新消息提醒@natural(01, 100)',
+              content: '带有温度的站内信息测试@natural(01, 100)',
+              coding: '1@natural(100000, 999999)',
+              time: '@date("yyyy-MM-dd") @date("HH:mm:ss")',
+              updateTime: '2020-05-30 @date("HH:mm:ss")',
+            },
+          ],
+        }),
+      },
+    }),
+  },
+  {
     url: '/api/detail-basic',
     method: 'get',
     response: () => ({

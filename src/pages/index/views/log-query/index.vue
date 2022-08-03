@@ -154,7 +154,7 @@ export default {
     confirmBody() {
       if (this.deleteIdx > -1) {
         const { name } = this.data?.[this.deleteIdx];
-        return `删除后，${name}的所有合同信息将被清空，且无法恢复`;
+        return `删除后，${name}的所有日志信息将被清空，且无法恢复`;
       }
       return '';
     },
