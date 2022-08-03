@@ -71,7 +71,7 @@ export default [
       {
         path: '/',
         name: 'Form',
-        component: () => import('@/pages/index/views/map-overview/index.vue'),
+        component: () => import('@/pages/index/views/card-form/index.vue'),
         // meta: { title: '选择器' },
       },
     ],
