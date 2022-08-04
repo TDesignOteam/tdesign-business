@@ -1,11 +1,16 @@
 import { TdBaseTableProps } from 'tdesign-vue';
 
-interface DashboardPanel {
-  title: string;
-  number: string | number;
-  leftType: string;
+interface TrendItem {
+  descripe: string;
   upTrend?: string;
   downTrend?: string;
+}
+
+interface DashboardPanel {
+  title: string;
+  unit?: string;
+  number: string | number;
+  trends?:Array<TrendItem>;
 }
 
 interface TendItem {
@@ -17,29 +22,68 @@ interface TendItem {
 
 export const PANE_LIST: Array<DashboardPanel> = [
   {
-    title: '总收入',
-    number: '¥ 28,425.00',
-    upTrend: '20.5%',
-    leftType: 'echarts-line',
+    title: '总人数',
+    unit: '(人)',
+    number: '3,126,560',
+    trends:[
+      {
+        descripe: '同比',
+        downTrend: '12.20%',
+      },
+      {
+        descripe: ' 周比',
+        upTrend: '8.69%',
+      },
+    ],
   },
   {
-    title: '总退款',
-    number: '¥ 768.00',
-    downTrend: '20.5%',
-    leftType: 'echarts-bar',
+    title: '车辆',
+    unit: '(辆)',
+    number: '4,592',
+    trends:[
+      {
+        descripe: '同比',
+        downTrend: '8.23%',
+      },
+      {
+        descripe: ' 周比',
+        upTrend: '8.69%',
+      },
+    ],
   },
   {
-    title: '活跃用户（个）',
-    number: '1126',
-    downTrend: '20.5%',
-    leftType: 'icon-usergroup',
+    title: 'GDP',
+    unit: '(万元)',
+    number: '68,239',
+    trends:[
+      {
+        descripe: '同比',
+        downTrend: '2.82%',
+      },
+      {
+        descripe: ' 环比',
+        upTrend: '10.68%',
+      },
+    ],
   },
   {
-    title: '订单（个）',
-    number: 527,
-    downTrend: '20.5%',
-    leftType: 'icon-file-paste',
+    title: '销售额',
+    unit: '(万元)',
+    number: '3,345',
+    trends:[
+      {
+        descripe: '同比',
+        downTrend: '8.23%',
+      },
+      {
+        descripe: ' 环比',
+        upTrend: '8.69%',
+      },
+    ],
   },
+
+
+
 ];
 
 export const SALE_TEND_LIST: Array<TendItem> = [

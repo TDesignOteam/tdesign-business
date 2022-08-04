@@ -63,8 +63,8 @@ export default Vue.extend({
       justify-content: center;
 
       .trend-icon-container {
-        background: var(--td-error-color-2);
-        margin-right: 8px;
+        background: #FAF0EE;
+        margin-right: 4px;
       }
     }
 
@@ -75,8 +75,8 @@ export default Vue.extend({
       justify-content: center;
 
       .trend-icon-container {
-        background: var(--td-success-color-2);
-        margin-right: 8px;
+        background: #E8F8F2;
+        margin-right: 4px;
       }
     }
 

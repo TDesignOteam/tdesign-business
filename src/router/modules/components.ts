@@ -41,7 +41,7 @@ export default [
       {
         path: '/',
         name: 'efficiency',
-        component: () => import('@/pages/index/views/map-overview/index.vue'),
+        component: () => import('@/pages/index/views/operation-efficacy/index.vue'),
         // meta: { title: '选择器' },
       },
     ],
