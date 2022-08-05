@@ -1,86 +1,83 @@
 <template>
-  <t-card
-    :bordered="false"
-    title="事件发布"
-    :class="{ 'dashboard-overview-card': true, 'overview-panel': true }"
-  >
-    <template #actions>
-      <t-radio-group default-value="2" class="radio-group-container">
-        <t-radio-button value="1">今日</t-radio-button>
-        <t-radio-button value="2">本周</t-radio-button>
-        <t-radio-button value="3">本月</t-radio-button>
-        <t-radio-button value="4">全年</t-radio-button>
-      </t-radio-group>
-      <t-date-range-picker
-        class="card-date-picker-container"
-        theme="primary"
-        mode="date"
-        :default-value="LAST_7_DAYS"
-        @change="onStokeDataChange"
-      />
-    </template>
-    <t-row>
-      <t-col :xs="12" :xl="2">
-        <div class="inner-card__wrapper">
-          <t-card :bordered="false" subtitle="本月出库总计（件）" class="inner-card">
-            <div class="inner-card__content">
-              <div class="inner-card__content-title">1726</div>
-              <div class="inner-card__content-footer">
-                同比
-                <trend class="trend-tag" type="down" :is-reverse-color="false" describe="20.3%" />
+  <t-tabs v-model="value">
+    <!-- 默认插槽 和 具名插槽（panel）都是用来渲染面板内容 -->
+    <t-tab-panel value="first" label="访问量" :destroyOnHide="false">
+      <t-row>
+        <t-col :xs="12" :xl="8">
+          <t-card
+            :bordered="false"
+            title="访问量"
+            :class="{ 'dashboard-overview-card': true, 'overview-panel': true }"
+          >
+            <!--        <template #actions>-->
+            <!--          <div class="actions-wrapper">-->
+            <!--            <t-radio-group default-value="2" class="radio-group-container">-->
+            <!--              <t-radio-button value="1">今日</t-radio-button>-->
+            <!--              <t-radio-button value="2">本周</t-radio-button>-->
+            <!--              <t-radio-button value="3">本月</t-radio-button>-->
+            <!--              <t-radio-button value="4">全年</t-radio-button>-->
+            <!--            </t-radio-group>-->
+            <!--            <t-date-range-picker-->
+            <!--              class="card-date-picker-container"-->
+            <!--              theme="primary"-->
+            <!--              mode="date"-->
+            <!--              :default-value="LAST_7_DAYS"-->
+            <!--              @change="onStokeDataChange"-->
+            <!--            />-->
+            <!--          </div>-->
+            <!--        </template>-->
+            <div
+              id="stokeContainer1"
+              style="width: 100%; height: 254px"
+              ref="stokeContainer1"
+              class="dashboard-chart-container"
+            ></div>
+          </t-card>
+        </t-col>
+        <t-col :xs="12" :xl="4">
+          <t-card
+            :bordered="false"
+            title="各个站点访问排行"
+            :class="{ 'dashboard-overview-card': true, 'rank-list': true }"
+          >
+            <div v-for="(item, index) in visiList" :key="index" class="rank-list-wrapper">
+              <div class="rank-list-line">
+                <span class="rank-list-line-number">{{ index + 1 }}</span>
+                <span class="rank-list-line-name">{{ item.name }}</span>
+                <span class="rank-list-line-content">{{ item.content }}</span>
               </div>
             </div>
           </t-card>
-          <t-card :bordered="false" subtitle="本月出库总计（件）" class="inner-card">
-            <div class="inner-card__content">
-              <div class="inner-card__content-title">1726</div>
-              <div class="inner-card__content-footer">
-                自从上周以来
-                <trend class="trend-tag" type="down" :is-reverse-color="false" describe="20.3%" />
-              </div>
-            </div>
-          </t-card>
-        </div>
-      </t-col>
-      <t-col :xs="12" :xl="10">
-        <div
-          id="stokeContainer1"
-          style="width: 100%; height: 265px"
-          ref="stokeContainer1"
-          class="dashboard-chart-container"
-        ></div>
-      </t-col>
-    </t-row>
-  </t-card>
+        </t-col>
+      </t-row>
+
+    </t-tab-panel>
+    <t-tab-panel value="second" label="申报数" :destroyOnHide="false">
+      <p slot="panel" style="padding: 25px">选项卡2的内容</p>
+    </t-tab-panel>
+  </t-tabs>
 </template>
 <script>
 import { TooltipComponent, LegendComponent, GridComponent } from 'echarts/components';
-import { LineChart } from 'echarts/charts';
+import { BarChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
 import * as echarts from 'echarts/core';
 import { mapState } from 'vuex';
 
-import { getOneLineChartDataSet } from '../index';
+import { constructInitDataset } from '../index';
 import { changeChartsTheme } from '@/utils/color';
 import { LAST_7_DAYS } from '@/utils/date';
-import Trend from '@/components/trend/index.vue';
 
-import { PANE_LIST, SALE_TEND_LIST, BUY_TEND_LIST, SALE_COLUMNS, BUY_COLUMNS } from '@/service/service-base';
+import { VISIT_RANK_LIST } from '@/service/service-base';
 
-echarts.use([TooltipComponent, LegendComponent, GridComponent, CanvasRenderer, LineChart]);
+echarts.use([TooltipComponent, LegendComponent, GridComponent, CanvasRenderer, BarChart]);
 
 export default {
   name: 'Overview',
-  components: {
-    Trend,
-  },
   data() {
     return {
-      panelList: PANE_LIST,
-      buyTendList: BUY_TEND_LIST,
-      saleTendList: SALE_TEND_LIST,
-      saleColumns: SALE_COLUMNS,
-      buyColumns: BUY_COLUMNS,
+      value: 'first',
+      visiList: VISIT_RANK_LIST,
       LAST_7_DAYS,
     };
   },
@@ -112,7 +109,7 @@ export default {
     onStokeDataChange(checkedValues) {
       const { chartColors } = this.$store.state.setting;
 
-      this.stokeChart.setOption(getOneLineChartDataSet({ ...chartColors }));
+      this.stokeChart.setOption(constructInitDataset({ ...chartColors }));
     },
     updateContainer() {
       this.stokeChart.resize({
@@ -126,7 +123,7 @@ export default {
       // 出入库概览
       if (!this.stokeContainer) this.stokeContainer = document.getElementById('stokeContainer1');
       this.stokeChart = echarts.init(this.stokeContainer);
-      this.stokeChart.setOption(getOneLineChartDataSet({ ...chartColors }));
+      this.stokeChart.setOption(constructInitDataset({ ...chartColors }));
     },
   },
 };
@@ -144,11 +141,11 @@ export default {
     padding-bottom: 0px;
   }
   /deep/ .t-card__body {
-    padding: 0 24px;
+    padding: 0 0 18px 24px;
   }
 
   /deep/ .t-card__title {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
   }
 
@@ -209,7 +206,7 @@ export default {
 
 }
 .dashboard-chart-container{
-  margin-top: 24px;
+  margin-top: 16px;
 }
 .radio-group-container {
   position: absolute;
@@ -222,6 +219,67 @@ export default {
 }
 /deep/ .t-range-input {
   height: 24px;
+}
+.rank-list {
+  padding-left: 24px;
+  &-wrapper {
+    //padding-bottom: 18px;
+  }
+  &-line {
+    position: relative;
+    //width: 100%;
+    padding: 9px 0;
+    display: flex;
+    &-number {
+      position: absolute;
+      top: 8px;
+      left: 0px;
+      display: inline-flex;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      color: white;
+      font-size: 14px;
+      background-color: var(--td-brand-color-8);
+      align-items: center;
+      justify-content: center;
+    }
+    &-name {
+      height: 22px;
+      line-height: 22px;
+      margin-left: 48px;
+      color: rgba(0,0,0,0.9);
+      font-size: 14px;
+    }
+    &-content {
+      height: 22px;
+      line-height: 22px;
+      margin-left: auto;
+      color: rgba(0,0,0,0.9);
+      font-size: 14px;
+    }
+  }
+  /deep/ .t-card__header {
+    padding-top: 24px;
+    padding-bottom: 16px;
+  }
+  /deep/ .t-card__body {
+    padding: 0 24px 24px 24px;
+  }
+
+  /deep/ .t-card__title {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  &:before {
+    position: absolute;
+    top: 64px;
+    left: 24px;
+    width: 1px;
+    height: 240px;
+    background: rgba(231,231,231,1);
+    content: '';
+  }
 }
 
 </style>

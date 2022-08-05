@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { getChartListColor } from '@/utils/color';
 import { getRandomArray } from '@/utils/charts';
+import {tSImportEqualsDeclaration} from "@babel/types";
 
 /** 首页 dashboard 折线图 */
 export function constructInitDashboardDataset(type: string) {
@@ -97,24 +98,13 @@ export function constructInitDataset({
   placeholderColor,
   borderColor,
 }: { dateTime: Array<string> } & Record<string, string>) {
-  const divideNum = 10;
+  const divideNum = 12;
   const timeArray = [];
   const inArray = [];
   const outArray = [];
   for (let i = 0; i < divideNum; i++) {
-    if (dateTime.length > 0) {
-      const dateAbsTime: number = (new Date(dateTime[1]).getTime() - new Date(dateTime[0]).getTime()) / divideNum;
-      const enhandTime: number = new Date(dateTime[0]).getTime() + dateAbsTime * i;
-      timeArray.push(dayjs(enhandTime).format('MM-DD'));
-    } else {
-      timeArray.push(
-        dayjs()
-          .subtract(divideNum - i, 'day')
-          .format('MM-DD'),
-      );
-    }
 
-    inArray.push(getRandomArray().toString());
+    timeArray.push(`${i+1}月`);
     outArray.push(getRandomArray().toString());
   }
   const dataset = {
@@ -147,12 +137,13 @@ export function constructInitDataset({
       },
     },
     grid: {
-      top: '5%',
+      top: '16px',
       left: '25px',
       right: 0,
-      bottom: '60px',
+      bottom: '24px',
     },
     legend: {
+      show:false,
       icon: 'rect',
       itemWidth: 12,
       itemHeight: 4,
@@ -170,11 +161,6 @@ export function constructInitDataset({
       {
         name: '本月',
         data: outArray,
-        type: 'bar',
-      },
-      {
-        name: '上月',
-        data: inArray,
         type: 'bar',
       },
     ],

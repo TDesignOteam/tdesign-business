@@ -7,11 +7,7 @@
     <!-- 中部图表  -->
     <middle-chart class="row-container" />
     <fouth-chart class="row-container"/>
-    <views-chart class="row-container"/>
-    <!-- 列表排名 -->
-    <rank-list class="row-container" />
-    <!-- 出入库概览 -->
-<!--    <over-view class="row-container" />-->
+    <views-chart/>
   </div>
 </template>
 <script>
@@ -20,7 +16,6 @@ import EventRelease from "./components/event-release";
 import MiddleChart from './components/middle-chart.vue';
 import FouthChart from './components/fouth-chart.vue';
 import ViewsChart from './components/views-chart.vue';
-import RankList from './components/rank-list.vue';
 
 export default {
   name: 'DashboardBase',
@@ -30,7 +25,6 @@ export default {
     FouthChart,
     ViewsChart,
     MiddleChart,
-    RankList,
   },
 };
 </script>

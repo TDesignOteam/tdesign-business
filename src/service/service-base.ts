@@ -20,6 +20,11 @@ interface TendItem {
   date: string;
 }
 
+interface RankItem {
+  name: string;
+  content: string;
+}
+
 export const PANE_LIST: Array<DashboardPanel> = [
   {
     title: '总人数',
@@ -122,6 +127,33 @@ export const SALE_TEND_LIST: Array<TendItem> = [
     productName: '新余市办公用户采购项目',
     count: 2015,
     date: '2021-09-12',
+  },
+];
+
+export const VISIT_RANK_LIST: Array<RankItem> = [
+  {
+    name: '示例中心',
+    content: '323,239',
+  },
+  {
+    name: '开放平台API管理',
+    content: '23,234',
+  },
+  {
+    name: '腾讯云平台帮助中心',
+    content: '18,290',
+  },
+  {
+    name: '视频监控',
+    content: '8,391',
+  },
+  {
+    name: '呼叫中心',
+    content: '383',
+  },
+  {
+    name: '腾讯会议',
+    content: '383',
   },
 ];
 
