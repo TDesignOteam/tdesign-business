@@ -1,4 +1,18 @@
-import { ViewModuleIcon, Edit1Icon, LayersIcon } from 'tdesign-icons-vue';
+import {
+  ViewModuleIcon,
+  Edit1Icon,
+  LayersIcon,
+  InternetIcon,
+  DashboardIcon,
+  BrowseIcon,
+  CreditcardIcon,
+  RootListIcon,
+  ViewListIcon,
+  UsergroupIcon,
+  UserIcon,
+  NotificationIcon,
+  FilePasteIcon
+} from 'tdesign-icons-vue';
 import Layout from '@/layouts';
 
 export default [
@@ -13,25 +27,19 @@ export default [
         path: 'base',
         name: 'ListBase',
         component: () => import('@/pages/index/views/list/base/index.vue'),
-        meta: { title: '基础列表页' },
+        meta: { title: '基础列表' },
       },
       {
-        path: 'card',
-        name: 'ListCard',
-        component: () => import('@/pages/index/views/list/card/index.vue'),
-        meta: { title: '卡片列表页' },
-      },
-      {
-        path: 'filter',
-        name: 'ListFilter',
-        component: () => import('@/pages/index/views/list/filter/index.vue'),
-        meta: { title: '筛选列表页' },
+        path: 'card-form',
+        name: 'CardForm',
+        component: () => import('@/pages/index/views/card-form/index.vue'),
+        meta: { title: '卡片列表' },
       },
       {
         path: 'tree',
         name: 'ListTree',
         component: () => import('@/pages/index/views/list/tree/index.vue'),
-        meta: { title: '树状筛选列表页' },
+        meta: { title: '树状列表' },
       },
     ],
   },
@@ -46,46 +54,13 @@ export default [
         path: 'base',
         name: 'FormBase',
         component: () => import('@/pages/index/views/form/base/index.vue'),
-        meta: { title: '基础表单页' },
+        meta: { title: '基础表单' },
       },
       {
         path: 'step',
         name: 'FormStep',
         component: () => import('@/pages/index/views/form/step/index.vue'),
-        meta: { title: '分步表单页' },
-      },
-    ],
-  },
-  {
-    path: '/detail',
-    name: 'detail',
-    component: Layout,
-    redirect: '/detail/base',
-    meta: { title: '详情页', icon: LayersIcon },
-    children: [
-      {
-        path: 'base',
-        name: 'DetailBase',
-        component: () => import('@/pages/index/views/detail/base/index.vue'),
-        meta: { title: '基础详情页' },
-      },
-      {
-        path: 'advanced',
-        name: 'DetailAdvanced',
-        component: () => import('@/pages/index/views/detail/advanced/index.vue'),
-        meta: { title: '多卡片详情页' },
-      },
-      {
-        path: 'deploy',
-        name: 'DetailDeploy',
-        component: () => import('@/pages/index/views/detail/deploy/index.vue'),
-        meta: { title: '数据详情页' },
-      },
-      {
-        path: 'secondary',
-        name: 'DetailSecondary',
-        component: () => import('@/pages/index/views/detail/secondary/index.vue'),
-        meta: { title: '二级详情页' },
+        meta: { title: '分步表单' },
       },
     ],
   },
@@ -143,21 +118,6 @@ export default [
         name: 'ResultMaintenance',
         component: () => import('@/pages/index/views/result/maintenance/index.vue'),
         meta: { title: '系统维护页' },
-      },
-    ],
-  },
-  {
-    path: '/business-component',
-    name: 'BusinessComponent',
-    component: Layout,
-    redirect: '/business-component/select-dialog',
-    meta: { title: '业务组件', icon: ViewModuleIcon },
-    children: [
-      {
-        path: 'select-dialog',
-        name: 'SelectDialog',
-        component: () => import('@/pages/index/views/select-dialog/index.vue'),
-        meta: { title: '选择器' },
       },
     ],
   },
