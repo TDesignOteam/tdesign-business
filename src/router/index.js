@@ -6,7 +6,6 @@ import othersRouters from './modules/others';
 
 // 存放动态路由
 export const asyncRouterList = [...baseRouters, ...componentsRouters, ...othersRouters];
-// export const asyncRouterList = [ ...componentsRouters];
 
 // 存放固定的路由
 const defaultRouterList = [
@@ -17,7 +16,7 @@ const defaultRouterList = [
   },
   {
     path: '*',
-    redirect: '/map-overview',
+    redirect: '/industry/map-overview',
   },
   ...asyncRouterList,
 ];

@@ -1,31 +1,40 @@
 <template>
   <t-row :gutter="[16, 16]">
     <t-col :xs="12" :xl="6">
-      <t-card title="统计数据" subtitle="(万元)" class="dashboard-chart-card">
-        <template #actions>
-          <div class="dashboard-chart-title-container">
-            <t-date-range-picker
-              class="card-date-picker-container"
-              theme="primary"
-              mode="date"
-              :default-value="LAST_7_DAYS"
-              @change="onCurrencyChange"
-            />
-          </div>
-        </template>
-        <div
-          id="monitorContainer"
-          ref="monitorContainer"
-          :style="{ width: '100%', height: `${resizeTime * 326}px` }"
-        ></div>
+      <t-card title="人员出勤情况" class="dashboard-chart-card">
+        <div id="monitorCard">
+          <t-row :gutter="[16, 16]" class="dashboard-cards-wrapper">
+            <t-col v-for="(item, index) in cardData" :key="item.name" :xs="12" :xl="4">
+              <div class="dashboard-cards-item" :class="{ line:index !== 2 }">
+                <div class="dashboard-cards-item-head">
+                  <span class="dashboard-cards-item-title">{{ item.title }}</span>
+                  <span class="dashboard-cards-item-subtitle">{{ item.subtitle }}</span>
+                </div>
+                <div class="dashboard-cards-item-content">{{ item.content }}</div>
+              </div>
+            </t-col>
+          </t-row>
+          <div
+            id="monitorContainer"
+            ref="monitorContainer"
+            :style="{ width: '100%', height: `${resizeTime * 290}px` }"
+          ></div>
+        </div>
       </t-card>
     </t-col>
     <t-col :xs="12" :xl="6">
-      <t-card title="销售渠道" :subtitle="currentMonth" class="dashboard-chart-card">
+      <t-card title="商品类别占比" class="dashboard-chart-card">
+        <template #actions>
+          <t-radio-group default-value="2" class="radio-group-container">
+            <t-radio-button value="1">全部</t-radio-button>
+            <t-radio-button value="2">线下</t-radio-button>
+            <t-radio-button value="3">线上</t-radio-button>
+          </t-radio-group>
+        </template>
         <div
           id="countContainer"
           ref="countContainer"
-          :style="{ width: `${resizeTime * 326}px`, height: `${resizeTime * 326}px`, margin: '0 auto' }"
+          :style="{ width: `100%`, height: `100%` }"
         ></div>
       </t-card>
     </t-col>
@@ -51,7 +60,26 @@ export default {
     return {
       LAST_7_DAYS,
       resizeTime: 1,
+      monitorContainer: null,
       currentMonth: this.getThisMonth(),
+      cardData: [
+        {
+          title: '今日出勤人数',
+          subtitle: '（人）',
+          content: '3,233',
+        },
+        {
+          title: '出勤率',
+          subtitle: '',
+          content: '92%',
+        },
+        {
+          title: '请假人数',
+          subtitle: '（人）',
+          content: '28',
+        },
+
+      ]
     };
   },
   computed: {
@@ -72,8 +100,7 @@ export default {
     this.$nextTick(() => {
       this.updateContainer();
     });
-
-    window.addEventListener('resize', this.updateContainer, false);
+    window.addEventListener('resize',this.debounce(this.updateContainer, 500), false);
     this.renderCharts();
   },
 
@@ -99,6 +126,15 @@ export default {
       this.currentMonth = this.getThisMonth(checkedValues);
       this.monitorChart.setOption(getLineChartDataSet({ dateTime: checkedValues, ...chartColors }));
     },
+    debounce(fn,delay){
+      let timer = null;
+      return function() {
+        if(timer){
+          clearTimeout(timer)
+        }
+        timer = setTimeout(fn,delay); // 简化写法
+      }
+    },
     updateContainer() {
       if (document.documentElement.clientWidth >= 1400 && document.documentElement.clientWidth < 1920) {
         this.resizeTime = (document.documentElement.clientWidth / 2080).toFixed(2);
@@ -108,29 +144,30 @@ export default {
         this.resizeTime = 1;
       }
 
-      this.countChart.resize({
-        // 根据父容器的大小设置大小
-        width: `${this.resizeTime * 326}px`,
-        height: `${this.resizeTime * 326}px`,
-      });
-
       this.monitorChart.resize({
         // 根据父容器的大小设置大小
         width: this.monitorContainer.clientWidth,
-        height: `${this.resizeTime * 326}px`,
+        height: `${this.resizeTime * 290}px`,
+      });
+
+      this.countChart.resize({
+        // 根据父容器的大小设置大小
+        width: this.monitorContainer.clientWidth,
+        height: this.monitorCard.clientHeight,
       });
     },
     renderCharts() {
       const { chartColors } = this.$store.state.setting;
 
-      // 资金走势
+      // 出勤情况
       if (!this.monitorContainer) {
         this.monitorContainer = document.getElementById('monitorContainer');
+        this.monitorCard = document.getElementById('monitorCard');
       }
       this.monitorChart = echarts.init(this.monitorContainer);
       this.monitorChart.setOption(getLineChartDataSet({ ...chartColors }));
 
-      // 销售合同占比
+      // 商品类别占比
       if (!this.countContainer) {
         this.countContainer = document.getElementById('countContainer');
       }
@@ -155,4 +192,38 @@ export default {
     font-weight: 500;
   }
 }
+.dashboard-cards-wrapper{
+  margin-bottom: 24px;
+  .dashboard-cards-item {
+    &-title {
+      color: rgba(0,0,0,0.9);
+      font-size: 14px;
+      font-weight: 400;
+    }
+    &-subtitle{
+      color: rgba(0,0,0,0.4);
+      font-size: 14px;
+      font-weight: 400;
+    }
+    &-content {
+      margin-top: 4px;
+      color: rgba(0,0,0,0.9);
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 44px;
+      height: 44px;
+    }
+  }
+}
+
+.line:after {
+  position: absolute;
+  top: 3px;
+  right: 16px;
+  width: 1px;
+  height: 64px;
+  background: #e7e7e7;
+  content: '';
+}
+
 </style>
