@@ -21,7 +21,7 @@ export default [
         path: 'map-overview',
         name: 'MapOverview',
         component: () => import('@/pages/index/views/map-overview/index.vue'),
-        meta: { title: '地图概括', icon: InternetIcon },
+        meta: { title: '地图概览', icon: InternetIcon },
       },
       {
         path: 'operation-operation',

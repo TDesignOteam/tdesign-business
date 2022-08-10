@@ -190,9 +190,6 @@ export default {
       opacity: 0.6;
     }
 
-    .dashboard-item-bottom {
-      color: var(--td-text-color-anti);
-    }
   }
 }
 </style>
