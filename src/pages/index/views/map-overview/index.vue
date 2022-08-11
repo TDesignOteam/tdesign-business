@@ -1,5 +1,5 @@
 <template>
-  <div id="tMapContainer" class="tgis-map">
+  <div style="position: relative">
     <div class="card-wrapper">
       <left-cards></left-cards>
       <div class="center-card-wrapper">
@@ -8,7 +8,7 @@
             <span class="center-card-top-title">
               人口总数
             </span>
-              <span class="center-card-top-subtitle">
+            <span class="center-card-top-subtitle">
               （万人）
             </span>
           </div>
@@ -21,7 +21,7 @@
             <span class="center-card-top-title">
               区域面积
             </span>
-              <span class="center-card-top-subtitle">
+            <span class="center-card-top-subtitle">
               （km²）
             </span>
           </div>
@@ -49,7 +49,7 @@
             </t-col>
           </t-row>
         </div>
-        <div class="right-cards-meeting">
+        <div class="right-cards-meeting" @click="toTencentMeeting()">
           <t-card :cover="require('@/assets/assets-map-img-1.png')" >
             <template #footer>
               <t-row :align="'middle'" justify="center" >
@@ -82,7 +82,7 @@
           </t-card>
         </div>
         <div class="right-cards-help">
-          <div v-for="item in helpData" :key="item.subName" class="right-cards-help-item" >
+          <div v-for="item in helpData" :key="item.subName" class="right-cards-help-item" @click="toHelp(item.subName)">
             <div class="right-cards-help-item-icon" :style="{background: item.background}"> <icon class="icon" :name="item.icon" size="32px"/></div>
             <div class="right-cards-help-item-text">{{ item.name }}</div>
             <div class="right-cards-help-item-text">（{{ item.subName }}）</div>
@@ -90,8 +90,9 @@
         </div>
       </div>
     </div>
-
+    <div id="tMapContainer" class="tgis-map"/>
   </div>
+
 </template>
 
 <script>
@@ -170,7 +171,14 @@ export default {
           resolve();
         }
       })
-
+    },
+    toTencentMeeting() {
+      console.log("toTencentMeeting")
+      window.open('https://cloud.tencent.com/document/product/1095/42407', '_blank')
+    },
+    toHelp(type) {
+      if( type === 'TCCC' ) window.open('https://cloud.tencent.com/document/product/679/30225', '_blank');
+      else window.open('https://cloud.tencent.com/document/product/382/43193', '_blank')
     }
   }
 
@@ -189,6 +197,7 @@ export default {
       border-radius: 3px;
       background: #FFFFFF;
       box-shadow: 0 1px 10px 0 rgba(0,0,0,0.05), 0 4px 5px 0 rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.12);
+      z-index: 1001;
     }
     &-item {
       width: 203px;
@@ -223,12 +232,11 @@ export default {
     top: 0;
     display: flex;
     width: 100%;
-
   }
   .right-cards {
     &-wrapper{
       margin: 24px 24px 0 0;
-
+      z-index: 1001;
     }
     &-monitor {
       width: 360px;
@@ -247,6 +255,7 @@ export default {
       }
     }
     &-meeting {
+      cursor: pointer;
       width: 360px;
       margin-bottom: 16px;
     }
@@ -261,6 +270,7 @@ export default {
         background: #FFFFFF;
         text-align: center;
         box-shadow: 0 1px 10px 0 rgba(0,0,0,0.05), 0 4px 5px 0 rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.12);
+        cursor: pointer;
         &-icon {
           width: 48px;
           height: 48px;

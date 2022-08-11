@@ -8,13 +8,13 @@
       </div>
       <span class="label">时间</span>
       <div class="search-input">
-        <t-date-range-picker allow-input clearable @pick="onPick" @change="onChange" />
+        <t-date-range-picker allow-input clearable />
       </div>
       <div class="button-group">
-        <t-button theme="primary">
+        <t-button>
           查询
         </t-button>
-        <t-button theme="base">
+        <t-button theme="default" variant="base">
           重置
         </t-button>
       </div>
@@ -57,7 +57,7 @@
 </template>
 <script>
 import { prefix } from '@/config/global';
-import { SearchIcon, AddIcon } from 'tdesign-icons-vue';
+import { SearchIcon } from 'tdesign-icons-vue';
 
 import {
   CONTRACT_STATUS,
@@ -72,7 +72,6 @@ export default {
   name: 'list-table',
   components: {
     SearchIcon,
-    AddIcon
   },
   data() {
     return {

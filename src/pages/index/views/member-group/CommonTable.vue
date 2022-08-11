@@ -10,11 +10,11 @@
         </t-input>
       </div>
       <div class="button-group">
-        <t-button theme="primary">
+        <t-button >
           <add-icon slot="icon"/>
           创建成员
         </t-button>
-        <t-button theme="base">
+        <t-button theme="default" variant="base">
           关联成员
         </t-button>
       </div>
