@@ -11,11 +11,10 @@ try {
     "RESOURCE_PREFIX": "/dev",
  // axios实例默认超时时间，单位ms
     "VUE_APP_API_TIMEOUT": "15000",
-    "VUE_APP_ENV": "dev",
-    "VUE_APP_MODEL": "local",
-    "VUE_APP_DEV_SERVER_PORT": "9001",
-    "VUE_APP_RUM_ID": "PJ37jT1pQJmPPl6pYy",
-    "VUE_APP_MAP_API_KEY": "K2XBZ-GSU63-P633I-YUQUD-CKJHV-A7FYA"
+    "VUE_APP_ENV": "prod",
+    "VUE_APP_MODEL": "online",
+    "VUE_APP_ENV_CDN_PATH": "/dev",
+    "VUE_APP_RUM_ID": "PJ37jT1pQJmPPl6pYy"
 };
   document.STATIC_ENV_CONFIG = window.STATIC_ENV_CONFIG;
 } catch (error) {
