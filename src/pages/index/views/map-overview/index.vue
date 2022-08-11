@@ -165,7 +165,8 @@ export default {
       return new Promise((resolve, reject) => {
         const script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = "https://map.qq.com/api/gljs?v=1.exp&key=K2XBZ-GSU63-P633I-YUQUD-CKJHV-A7FYA";
+        // VITE_MAP_API_KEY：腾讯地图Javascript API 应用key
+        script.src = `https://map.qq.com/api/gljs?v=1.exp&key=${import.meta.env.VITE_MAP_API_KEY}`;
         document.body.appendChild(script);
         script.onload = () => {
           resolve();
@@ -173,7 +174,6 @@ export default {
       })
     },
     toTencentMeeting() {
-      console.log("toTencentMeeting")
       window.open('https://cloud.tencent.com/document/product/1095/42407', '_blank')
     },
     toHelp(type) {

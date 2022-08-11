@@ -14,7 +14,8 @@ try {
     "VUE_APP_ENV": "dev",
     "VUE_APP_MODEL": "local",
     "VUE_APP_DEV_SERVER_PORT": "9001",
-    "VUE_APP_RUM_ID": "PJ37jT1pQJmPPl6pYy"
+    "VUE_APP_RUM_ID": "PJ37jT1pQJmPPl6pYy",
+    "VUE_APP_MAP_API_KEY": "K2XBZ-GSU63-P633I-YUQUD-CKJHV-A7FYA"
 };
   document.STATIC_ENV_CONFIG = window.STATIC_ENV_CONFIG;
 } catch (error) {
