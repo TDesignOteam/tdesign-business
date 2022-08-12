@@ -132,8 +132,6 @@
 import { GSelectDialog, GSearch } from '@wecity/tdesign-gov-vue';
 import Editor from "@/components/code/editor";
 import { Icon } from 'tdesign-icons-vue';
-import * as monaco from 'monaco-editor';
-
 
 const productString = [
   {
