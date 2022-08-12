@@ -67,6 +67,7 @@ export default ({ mode }) => {
 
     build: {
       cssCodeSplit: false,
+      assetsDir: 'assets_res',
     },
     envPrefix: ['VUE_APP_', 'VITE_'],
 
