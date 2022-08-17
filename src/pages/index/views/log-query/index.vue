@@ -1,24 +1,21 @@
 <template>
   <div class="list-common-table">
-    <div class="list-title-wrapper">
-      <span>全部图层</span>
-    </div>
     <div class="operate-wrapper">
       <div class="search-input">
         <t-input placeholder="请输入关键词">
           <search-icon slot="suffix-icon" size="20px" />
         </t-input>
       </div>
+      <span class="label">时间</span>
+      <div class="search-input">
+        <t-date-range-picker allow-input clearable />
+      </div>
       <div class="button-group">
-        <t-button theme="primary">
-          <add-icon slot="icon"/>
-          新增图层
+        <t-button>
+          查询
         </t-button>
-        <t-button theme="base">
-          导入图层
-        </t-button>
-        <t-button theme="base">
-          去地图预览
+        <t-button theme="default" variant="base">
+          重置
         </t-button>
       </div>
     </div>
@@ -26,7 +23,7 @@
       <t-table
         :data="data"
         :columns="columns"
-        :height="$getFirstLevelTableHeight() + 24"
+        :maxHeight="$getFirstLevelTableHeight() + 74"
         :rowKey="rowKey"
         :verticalAlign="verticalAlign"
         :hover="hover"
@@ -38,13 +35,13 @@
         :headerAffixProps="{ offsetTop, container: getContainer }"
       >
         <template #status="{ row }">
-          <t-tag v-if="row.status === PERSON_STATUS.DISABLE" theme="danger" variant="light">禁用</t-tag>
-          <t-tag v-if="row.status === PERSON_STATUS.ENABLE" theme="success" variant="light">启用</t-tag>
+          <t-tag v-if="row.status === PERSON_STATUS.DISABLE" theme="danger" variant="light">成功</t-tag>
+          <t-tag v-if="row.status === PERSON_STATUS.ENABLE" theme="success" variant="light">失败</t-tag>
         </template>
         <template #op="{ row }">
-          <a class="t-button-link" @click="rehandleClickOp(row)">预览</a>
-          <a class="t-button-link" @click="rehandleClickOp(row)">编辑</a>
-          <a class="t-button-link" @click="handleClickDelete(row)">删除</a>
+          <span v-if="row.op === 0">查询成员列表</span>
+          <span v-if="row.op === 1">分页查询组</span>
+          <span v-if="row.op === 2">查询命名空间列表</span>
         </template>
       </t-table>
       <t-dialog
@@ -60,7 +57,7 @@
 </template>
 <script>
 import { prefix } from '@/config/global';
-import { SearchIcon, AddIcon } from 'tdesign-icons-vue';
+import { SearchIcon } from 'tdesign-icons-vue';
 
 import {
   CONTRACT_STATUS,
@@ -75,7 +72,6 @@ export default {
   name: 'list-table',
   components: {
     SearchIcon,
-    AddIcon
   },
   data() {
     return {
@@ -104,43 +100,37 @@ export default {
           colKey: 'number',
         },
         {
-          title: '图层名称',
+          title: '用户账号',
           fixed: 'left',
-          width: 274,
+          width: 250,
           align: 'left',
           ellipsis: true,
-          colKey: 'name',
+          colKey: 'account',
         },
         {
-          title: '图层ID',
+          title: 'ip地址',
           fixed: 'left',
-          width: 180,
+          width: 140,
           align: 'left',
           ellipsis: true,
-          colKey: 'id',
+          colKey: 'ip',
         },
         {
-          title: '图层数',
+          title: '操作内容',
           fixed: 'left',
-          width: 100,
+          width: 326,
           align: 'left',
           ellipsis: true,
-          colKey: 'count1',
-        },{
-          title: '图层数',
-          fixed: 'left',
-          width: 100,
-          align: 'left',
-          ellipsis: true,
-          colKey: 'count2',
+          colKey: 'op',
         },
         {
           align: 'left',
           fixed: 'right',
-          width: 236,
-          colKey: 'op',
-          title: '操作',
+          width: 190,
+          colKey: 'opTime',
+          title: '操作时间',
         },
+        { title: '操作结果', colKey: 'status', width: 128, cell: { col: 'status' } },
       ],
       rowKey: 'index',
       tableLayout: 'auto',
@@ -163,7 +153,7 @@ export default {
     confirmBody() {
       if (this.deleteIdx > -1) {
         const { name } = this.data?.[this.deleteIdx];
-        return `删除后，${name}的所有地图信息将被清空，且无法恢复`;
+        return `删除后，${name}的所有日志信息将被清空，且无法恢复`;
       }
       return '';
     },
@@ -174,7 +164,7 @@ export default {
   mounted() {
     this.dataLoading = true;
     this.$request
-      .get('/api/get-map-list')
+      .get('/api/get-log-list')
       .then((res) => {
         if (res.code === 0) {
           const { list = [] } = res.data;
@@ -262,8 +252,8 @@ export default {
   }
 }
 .t-button + .t-button {
-    margin-left: @spacer;
- }
+  margin-left: @spacer;
+}
 
 .list-title {
   &-wrapper{
@@ -286,6 +276,15 @@ export default {
 
 .operate-wrapper {
   display: flex;
+  margin-bottom: 16px;
+  .label {
+    line-height: 32px;
+    opacity: 1;
+    color: rgba(0,0,0,0.9);
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0 16px;
+  }
   .search-input {
     width: 240px;
     margin-bottom: 16px;

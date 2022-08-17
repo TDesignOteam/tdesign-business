@@ -1,22 +1,70 @@
 <template>
-  <div style="padding: 24px;background-color:#fff">
-    <t-checkbox v-model="isClassify">是否分类</t-checkbox>
-    <t-checkbox v-model="isObject">数据是否对象类型</t-checkbox>
-    <t-divider />
-    <t-row :gutter="16">
-      <t-col>
-        <t-button @click="isShowProduct = true">编辑分组选择器弹窗(单列表)</t-button>
-      </t-col>
-    </t-row>
-    <t-divider />
-    <t-row :gutter="16">
-      <t-col>
-        <t-button @click="isShowPerson = true">人员选择器(双列表，自定义左侧内容)</t-button>
-      </t-col>
-    </t-row>
-    <t-divider />
-    <p>选中的值：</p>
-    <pre v-html="result"></pre>
+  <div class="select-dialog-wrapper">
+    <div class="select-dialog-title">
+      选择器
+    </div>
+    <div class="select-dialog-descripe">
+      可用在人员、商品、基础数据等选择器组件
+    </div>
+    <div class="select-dialog-second-title">
+      基础用法
+    </div>
+    <div class="select-dialog-demo-wrapper">
+      <t-button @click="isShowProduct = true">编辑分组选择器弹窗(单列表)</t-button>
+      <div class="select-dialog-demo-button">
+        <div class="select-dialog-demo-button-item" style="margin-right: 8px">
+          <icon name="file-copy" size="16px" />
+        </div>
+        <div class="select-dialog-demo-button-item" :class="{active: isCodeOneShow}" @click="toCodeShow('one')">
+          <icon name="code" size="16px"/>
+        </div>
+      </div>
+    </div>
+    <div ></div>
+    <editor class="select-dialog-demo-code" language="html" ref="htmlEditor" :options="editorOpt" :style="{height: isCodeOneShow ? '884px' : '0px', opacity: isCodeOneShow ? 1 : 0}"></editor>
+    <div class="select-dialog-second-title">
+      带标签分类
+    </div>
+    <div class="select-dialog-demo-wrapper">
+      <t-button @click="isShowPerson = true">人员选择器(双列表，自定义左侧内容)</t-button>
+      <div class="select-dialog-demo-button">
+        <div class="select-dialog-demo-button-item" style="margin-right: 8px">
+          <icon name="file-copy" size="16px" />
+        </div>
+        <div class="select-dialog-demo-button-item" :class="{active: isCodeTwoShow}" @click="toCodeShow('two')">
+          <icon name="code" size="16px"/>
+        </div>
+      </div>
+    </div>
+    <editor class="select-dialog-demo-code" language="html" ref="htmlEditor2" :options="editorOpt" :style="{height: isCodeTwoShow ? '884px' : '0px', opacity: isCodeTwoShow ? 1 : 0}"></editor>
+    <div class="select-dialog-second-title">
+      带标签分类
+    </div>
+    <div class="select-dialog-table">
+      <t-table
+        :rowKey="rowKey"
+        :data="data"
+        :columns="columns"
+      ></t-table>
+    </div>
+
+<!--    <t-checkbox v-model="isClassify">是否分类</t-checkbox>-->
+<!--    <t-checkbox v-model="isObject">数据是否对象类型</t-checkbox>-->
+<!--    <t-divider />-->
+<!--    <t-row :gutter="16">-->
+<!--      <t-col>-->
+<!--        <t-button @click="isShowProduct = true">编辑分组选择器弹窗(单列表)</t-button>-->
+<!--      </t-col>-->
+<!--    </t-row>-->
+<!--    <t-divider />-->
+<!--    <t-row :gutter="16">-->
+<!--      <t-col>-->
+<!--        <t-button @click="isShowPerson = true">人员选择器(双列表，自定义左侧内容)</t-button>-->
+<!--      </t-col>-->
+<!--    </t-row>-->
+<!--    <t-divider />-->
+<!--    <p>选中的值：</p>-->
+<!--    <pre v-html="result"></pre>-->
     <g-select-dialog
       ref="selectDialog"
       v-model="productItems"
@@ -82,6 +130,8 @@
 
 <script>
 import { GSelectDialog, GSearch } from '@wecity/tdesign-gov-vue';
+import Editor from "@/components/code/editor";
+import { Icon } from 'tdesign-icons-vue';
 
 const productString = [
   {
@@ -350,10 +400,27 @@ export default {
   components: {
     GSelectDialog,
     GSearch,
+    Icon,
+    Editor,
   },
 
   data() {
     return {
+      editorOpt: {
+        language: 'html',
+        scrollbar: {
+          vertical: 'auto',
+          horizontal: 'auto',
+        },
+        automaticLayout: true,
+        theme: 'myTheme',
+        readOnly: true,
+        value: '',
+        lineNumbers: 'off',
+      },
+      rowKey: 'index',
+      isCodeOneShow: false,
+      isCodeTwoShow: false,
       isClassify: false, // 是否分类
       isObject: false, // 数据是否对象类型
       isShowPerson: false,
@@ -385,6 +452,80 @@ export default {
       personDisabledDefaultValue: ['2'],
       result: {},
       searchElementLists: [],
+      data: [
+        {index:0, param: 'titles', explain: '自定义列表标题', type: 'array', optional: '-', default: '[\'列表 1\', \'列表 2\']'},
+        {index:1, param: 'titles', explain: '自定义列表标题', type: 'array', optional: '-', default: '[\'列表 1\', \'列表 2\']'},
+        {index:2, param: 'titles', explain: '自定义列表标题', type: 'array', optional: '-', default: '[\'列表 1\', \'列表 2\']'},
+        {index:3, param: 'titles', explain: '自定义列表标题', type: 'array', optional: '-', default: '[\'列表 1\', \'列表 2\']'},
+        {index:4, param: 'titles', explain: '自定义列表标题', type: 'array', optional: '-', default: '[\'列表 1\', \'列表 2\']'},
+      ],
+      columns: [
+        {
+          width: 200,
+          colKey: 'param',
+          title: '参数',
+        },
+        {
+          width: 100,
+          colKey: 'explain',
+          title: '说明',
+        },
+        {
+          width: 157,
+          colKey: 'type',
+          title: '类型',
+        },
+        {
+          width: 267,
+          colKey: 'optional',
+          title: '可选值',
+        },
+        {
+          width: 214,
+          colKey: 'default',
+          title: '默认值',
+        }
+      ],
+      code: `
+&lt;template>
+  &lt;div class="tdesign-demo-block-row">
+    &lt;t-button theme="primary">
+      &lt;add-icon slot="icon"/>
+      新建
+    &lt;/t-button>
+    &lt;t-button variant="outline">
+      &lt;cloud-upload-icon slot="icon"/>
+      上传文件
+    &lt;/t-button>
+    &lt;t-button shape="circle" theme="primary">
+      &lt;discount-icon slot="icon"/>
+    &lt;/t-button>
+    &lt;t-button shape="circle" theme="primary">
+      &lt;cloud-download-icon slot="icon"/>
+    &lt;/t-button>
+    &lt;t-button variant="outline" :icon="renderIcon">
+      搜索
+    &lt;/t-button>
+  &lt;/div>
+&lt;/template>
+
+&lt;script lang="jsx">
+ import {
+   AddIcon, CloudUploadIcon, SearchIcon, DiscountIcon, CloudDownloadIcon,
+ } from 'tdesign-icons-vue';
+
+ export default {
+   components: {
+     AddIcon, CloudUploadIcon, DiscountIcon, CloudDownloadIcon,
+   },
+   methods: {
+     renderIcon() {
+       return &lt;SearchIcon />;
+     },
+   },
+ };
+&lt;/script>
+      `
     };
   },
   computed: {
@@ -407,6 +548,9 @@ export default {
       this.productItems = [];
       this.personItems = [];
     },
+  },
+  mounted() {
+    this.setValue(this.code.replace(/&lt;/g, "<"));
   },
   methods: {
     clickItem(index) {
@@ -445,6 +589,93 @@ export default {
       // this.$refs.selectDialog.remove(element);
       this.clickItem((this.elementIndex + 1) % 3); // 模拟：分组数据跳转到选中元素所在分组
     },
+    toCodeShow(value) {
+      if (value === 'one') {
+        this.isCodeOneShow = !this.isCodeOneShow;
+      }
+      if (value === 'two') {
+        this.isCodeTwoShow = !this.isCodeTwoShow;
+      }
+    },
+    setValue(value) {
+      this.$refs.htmlEditor.setValue(value);
+      this.$refs.htmlEditor2.setValue(value);
+    },
   },
 };
 </script>
+<style lang="less" scoped>
+.select-dialog {
+  &-wrapper {
+    height: 100%;
+    padding: 24px;
+    background-color:#fff
+  }
+  &-title {
+    height: 44px;
+    margin-bottom: 16px;
+    color: rgba(0,0,0,0.9);
+    font-size: 36px;
+    font-weight: 700;
+    text-align: left;
+    line-height: 44px;
+  }
+  &-descripe {
+    height: 22px;
+    margin-bottom: 40px;
+    color: rgba(0,0,0,0.6);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+  }
+  &-second-title {
+    height: 28px;
+    margin-top: 40px;
+    margin-bottom: 16px;
+    color: rgba(0,0,0,0.9);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
+  }
+  &-demo {
+
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      position: relative;
+      width: 1102px;
+      height: 284px;
+      padding-left: 40px;
+      border-radius: 3px;
+      border: 1px solid #E7E7E7;
+      background: #FFFFFF;
+    }
+    &-button {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      display: flex;
+      &-item {
+        width: 32px;
+        height: 32px;
+        padding: 4px 8px;
+        border-radius: 3px;
+        background: #FFFFFF;
+        &:hover {
+          background: #EEEEEE;
+        }
+
+      }
+    }
+  }
+
+}
+.active {
+  background: #EEEEEE;
+}
+.g-editor {
+  width: 1102px;
+  padding: 24px 0 0 0;
+  max-height: 884px;
+}
+</style>

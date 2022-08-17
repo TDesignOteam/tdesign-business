@@ -87,13 +87,14 @@ export default Vue.extend({
   }
 
   &-container {
-    min-height: 400px;
-    height: 75vh;
+    min-height: 828px;
+    height: calc(100vh - 140px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 24px;
+    //justify-content: center;
+    padding:235px 24px 24px;
+    background: #ffffff;
   }
 
   &-bg-img {
@@ -104,7 +105,7 @@ export default Vue.extend({
   &-title {
     font-style: normal;
     font-weight: 500;
-    margin-top: 8px;
+    margin-top: 22px;
     color: var(--td-text-color-primary);
     font-size: @font-size-xl;
     line-height: @text-line-height-xl;

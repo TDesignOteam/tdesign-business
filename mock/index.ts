@@ -42,14 +42,107 @@ export default [
           'list|1-100': [
             {
               'index|+1': 1,
-              'status|1': '@natural(0, 4)',
-              no: 'BH00@natural(01, 100)',
-              name: '@city()办公用品采购项目',
+              'status|1': '@natural(0, 1)',
+              number: '@natural(01, 100)',
+              name: '@cname()',
+              code:'ROLE_@natural(01, 100)',
+              description:'受理人员',
               'paymentType|1': '@natural(0, 1)',
               'contractType|1': '@natural(0, 2)',
               updateTime: '2020-05-30 @date("HH:mm:ss")',
-              amount: '@natural(10, 500),000,000',
-              adminName: '@cname()',
+            },
+          ],
+        }),
+      },
+    }),
+  },
+  {
+    url: '/api/get-map-list',
+    method: 'get',
+    response: () => ({
+      code: 0,
+      data: {
+        ...Mock.mock({
+          'list|1-100': [
+            {
+              'index|+1': 1,
+              'status|1': '@natural(0, 1)',
+              number: '@natural(01, 100)',
+              name: '学校',
+              id:'MAP_@natural(01, 100)',
+              count1: '@natural(01, 100)',
+              count2: '@natural(01, 100)',
+              updateTime: '2020-05-30 @date("HH:mm:ss")',
+            },
+          ],
+        }),
+      },
+    }),
+  },
+  {
+    url: '/api/get-log-list',
+    method: 'get',
+    response: () => ({
+      code: 0,
+      data: {
+        ...Mock.mock({
+          'list|1-100': [
+            {
+              'index|+1': 1,
+              'status|1': '@natural(0, 1)',
+              number: '@natural(01, 100)',
+              account: '@natural(01, 100)@qq.com',
+              ip:'@natural(10, 180).@natural(10, 180).@natural(10, 180).@natural(10, 180)',
+              op:'@natural(0, 2)',
+              opTime: '@date("yyyy-MM-dd") @date("HH:mm:ss")',
+            },
+          ],
+        }),
+      },
+    }),
+  },
+  {
+    url: '/api/get-log3-list',
+    method: 'get',
+    response: () => ({
+      code: 0,
+      data: {
+        ...Mock.mock({
+          'list|1-100': [
+            {
+              'index|+1': 1,
+              'status|1': '@natural(0, 1)',
+              number: '@natural(01, 100)',
+              name: '@cname()',
+              account: '@natural(01, 100)@qq.com',
+              group: '城市体征',
+              coding: '1@natural(100000, 999999)',
+              'contractType|1': '@natural(0, 2)',
+              updateTime: '2020-05-30 @date("HH:mm:ss")',
+            },
+          ],
+        }),
+      },
+    }),
+  },
+  {
+    url: '/api/get-message-list',
+    method: 'get',
+    response: () => ({
+      code: 0,
+      data: {
+        ...Mock.mock({
+          'list|1-100': [
+            {
+              'index|+1': 1,
+              'status|1': '@natural(0, 1)',
+              module: '融合通信@natural(01, 100)',
+              type1: '新消息提醒@natural(01, 100)',
+              type2: '新消息提醒@natural(01, 100)',
+              content: '带有温度的站内信息测试@natural(01, 100)',
+              coding: '1@natural(100000, 999999)',
+              time: '@date("yyyy-MM-dd") @date("HH:mm:ss")',
+              updateTime: '2020-05-30 @date("HH:mm:ss")',
             },
           ],
         }),

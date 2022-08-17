@@ -3,6 +3,7 @@ import { viteMockServe } from 'vite-plugin-mock';
 import { createVuePlugin } from 'vite-plugin-vue2';
 import { createSvgPlugin } from 'vite-plugin-vue2-svg';
 import htmlTemplate from 'vite-plugin-html-template';
+import monacoEditorPlugin from 'vite-plugin-monaco-editor';
 import env from './cli-config/env.mode.config';
 import mpa from './cli-config/vite-plugin-mpa';
 import { multiPage } from './cli-config/mpa.config';
@@ -61,10 +62,12 @@ export default ({ mode }) => {
           VUE_APP_CDN_PATH: '',
         },
       }),
+      // monacoEditorPlugin(),
     ],
 
     build: {
       cssCodeSplit: false,
+      assetsDir: 'assets_res',
     },
     envPrefix: ['VUE_APP_', 'VITE_'],
 

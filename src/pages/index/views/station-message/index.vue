@@ -3,27 +3,39 @@
     <t-card class="list-card-container">
       <t-row justify="space-between">
         <div class="left-operation-container">
-          <t-button @click="handleSetupContract"> 新建合同 </t-button>
-          <t-button variant="base" theme="default" :disabled="!selectedRowKeys.length"> 导出合同 </t-button>
-          <p v-if="!!selectedRowKeys.length" class="selected-count">已选{{ selectedRowKeys.length }}项</p>
+          <span class="label">消息内容</span>
+          <div class="search-input">
+            <t-input placeholder="请输入角色名称"></t-input>
+          </div>
+          <span class="label">消息模块</span>
+          <div class="search-input">
+            <t-input placeholder="请选择消息模块"></t-input>
+          </div>
+          <span class="label">时间</span>
+          <div class="search-input">
+            <t-date-range-picker allow-input clearable  />
+          </div>
         </div>
         <div class="operate-wrapper">
-          <t-input v-model="searchValue" class="search-input" placeholder="请输入你需要搜索的内容" clearable>
-            <template #suffix-icon>
-              <search-icon size="20px" />
-            </template>
-          </t-input>
           <div class="button-group">
-            <t-button theme="primary">
-              <add-icon slot="icon"/>
-              新建
+            <t-button >
+              查询
+            </t-button>
+            <t-button theme="default" variant="base">
+              重置
             </t-button>
           </div>
         </div>
       </t-row>
-
+      <t-row justify="space-between">
+        <div class="select-count-wrapper">
+          <span class="selected-text">已选择<span class="selected-count">{{ selectedRowKeys.length }}</span>项</span>
+          <t-button variant="outline" size="small">删除</t-button>
+        </div>
+      </t-row>
       <div class="table-container">
         <t-table
+          :maxHeight="$getFirstLevelTableHeight()"
           :columns="columns"
           :data="data"
           :rowKey="rowKey"
@@ -39,28 +51,9 @@
           :headerAffixProps="{ offsetTop: offsetTop, container: getContainer }"
         >
           <template #status="{ row }">
-            <t-tag v-if="row.status === CONTRACT_STATUS.FAIL" theme="danger" variant="light">审核失败</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.AUDIT_PENDING" theme="warning" variant="light">待审核</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.EXEC_PENDING" theme="warning" variant="light">待履行</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.EXECUTING" theme="success" variant="light">履行中</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.FINISH" theme="success" variant="light">已完成</t-tag>
+            <t-tag v-if="row.status === MESSAGE_STATUS.READ" disabled variant="light">已读</t-tag>
+            <t-tag v-if="row.status === MESSAGE_STATUS.UNREAD" theme="primary" variant="light">未读</t-tag>
           </template>
-          <template #contractType="{ row }">
-            <p v-if="row.contractType === CONTRACT_TYPES.MAIN">审核失败</p>
-            <p v-if="row.contractType === CONTRACT_TYPES.SUB">待审核</p>
-            <p v-if="row.contractType === CONTRACT_TYPES.SUPPLEMENT">待履行</p>
-          </template>
-          <template #paymentType="{ row }">
-            <p v-if="row.paymentType === CONTRACT_PAYMENT_TYPES.PAYMENT" class="payment-col">
-              付款
-              <trend class="dashboard-item-trend" type="up" />
-            </p>
-            <p v-if="row.paymentType === CONTRACT_PAYMENT_TYPES.RECIPT" class="payment-col">
-              收款
-              <trend class="dashboard-item-trend" type="down" />
-            </p>
-          </template>
-
           <template #op="slotProps">
             <a class="t-button-link" @click="handleClickDetail()">详情</a>
             <a class="t-button-link" @click="handleClickDelete(slotProps)">删除</a>
@@ -80,24 +73,15 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import { SearchIcon, AddIcon } from 'tdesign-icons-vue';
-import Trend from '@/components/trend/index.vue';
 import { prefix } from '@/config/global';
 
-import { CONTRACT_STATUS, CONTRACT_STATUS_OPTIONS, CONTRACT_TYPES, CONTRACT_PAYMENT_TYPES } from '@/constants';
+import { MESSAGE_STATUS } from '@/constants';
 
 export default Vue.extend({
   name: 'ListBase',
-  components: {
-    SearchIcon,
-    Trend,
-  },
   data() {
     return {
-      CONTRACT_STATUS,
-      CONTRACT_STATUS_OPTIONS,
-      CONTRACT_TYPES,
-      CONTRACT_PAYMENT_TYPES,
+      MESSAGE_STATUS,
       prefix,
       dataLoading: false,
       data: [],
@@ -106,37 +90,37 @@ export default Vue.extend({
       columns: [
         { colKey: 'row-select', type: 'multiple', width: 64, fixed: 'left' },
         {
-          title: '合同名称',
+          title: '消息模块',
           align: 'left',
-          width: 250,
+          width: 120,
           ellipsis: true,
-          colKey: 'name',
+          colKey: 'module',
           fixed: 'left',
+        },
+        {
+          title: '消息类别',
+          width: 134,
+          ellipsis: true,
+          colKey: 'type1',
+        },
+        {
+          title: '消息类别',
+          width: 134,
+          ellipsis: true,
+          colKey: 'type2',
+        },
+        {
+          title: '消息内容',
+          width: 284,
+          ellipsis: true,
+          colKey: 'content',
         },
         { title: '合同状态', colKey: 'status', width: 200, cell: { col: 'status' } },
         {
-          title: '合同编号',
+          title: '时间',
           width: 200,
           ellipsis: true,
-          colKey: 'no',
-        },
-        {
-          title: '合同类型',
-          width: 200,
-          ellipsis: true,
-          colKey: 'contractType',
-        },
-        {
-          title: '合同收付类型',
-          width: 200,
-          ellipsis: true,
-          colKey: 'paymentType',
-        },
-        {
-          title: '合同金额 (元)',
-          width: 200,
-          ellipsis: true,
-          colKey: 'amount',
+          colKey: 'time',
         },
         {
           align: 'left',
@@ -177,7 +161,7 @@ export default Vue.extend({
   mounted() {
     this.dataLoading = true;
     this.$request
-      .get('/api/get-list')
+      .get('/api/get-message-list')
       .then((res) => {
         if (res.code === 0) {
           const { list = [] } = res.data;
@@ -255,6 +239,7 @@ export default Vue.extend({
 }
 
 .left-operation-container {
+  display: flex;
   padding: 0 0 6px 0;
   margin-bottom: 16px;
 
@@ -262,6 +247,14 @@ export default Vue.extend({
     display: inline-block;
     margin-left: 8px;
     color: var(--td-text-color-secondary);
+  }
+  .label {
+    line-height: 32px;
+    opacity: 1;
+    color: rgba(0,0,0,0.9);
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0 16px;
   }
 }
 
@@ -277,5 +270,27 @@ export default Vue.extend({
 
 .t-button + .t-button {
     margin-left: @spacer;
+ }
+.select-count-wrapper{
+  width: 100%;
+  background: #F3F3F3;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(231,231,231,1);
+  .selected-text {
+    height: 22px;
+    margin-right: 16px;
+    color: rgba(0,0,0,0.6);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+  }
+  .selected-count {
+    height: 22px;
+    padding: 0 4px;
+    color: #0052d9;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 22px;
+  }
  }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="list-common-table">
     <div class="list-title-wrapper">
-      <span>全部图层</span>
+      <span>{{ title }}</span>
     </div>
     <div class="operate-wrapper">
       <div class="search-input">
@@ -10,15 +10,12 @@
         </t-input>
       </div>
       <div class="button-group">
-        <t-button theme="primary">
+        <t-button >
           <add-icon slot="icon"/>
-          新增图层
+          创建成员
         </t-button>
-        <t-button theme="base">
-          导入图层
-        </t-button>
-        <t-button theme="base">
-          去地图预览
+        <t-button theme="default" variant="base">
+          关联成员
         </t-button>
       </div>
     </div>
@@ -77,6 +74,12 @@ export default {
     SearchIcon,
     AddIcon
   },
+  props: {
+    title: {
+      type: String,
+      default: '全部',
+    },
+  },
   data() {
     return {
       CONTRACT_STATUS,
@@ -104,35 +107,35 @@ export default {
           colKey: 'number',
         },
         {
-          title: '图层名称',
+          title: '用户名',
           fixed: 'left',
-          width: 274,
+          width: 120,
           align: 'left',
           ellipsis: true,
           colKey: 'name',
         },
         {
-          title: '图层ID',
+          title: '账号',
           fixed: 'left',
           width: 180,
           align: 'left',
           ellipsis: true,
-          colKey: 'id',
+          colKey: 'account',
         },
         {
-          title: '图层数',
+          title: '所属分组',
           fixed: 'left',
-          width: 100,
+          width: 130,
           align: 'left',
           ellipsis: true,
-          colKey: 'count1',
+          colKey: 'group',
         },{
-          title: '图层数',
+          title: 'coding令牌/用户名',
           fixed: 'left',
           width: 100,
           align: 'left',
           ellipsis: true,
-          colKey: 'count2',
+          colKey: 'coding',
         },
         {
           align: 'left',
@@ -172,25 +175,7 @@ export default {
     },
   },
   mounted() {
-    this.dataLoading = true;
-    this.$request
-      .get('/api/get-map-list')
-      .then((res) => {
-        if (res.code === 0) {
-          const { list = [] } = res.data;
-          this.data = list;
-          this.pagination = {
-            ...this.pagination,
-            total: list.length,
-          };
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      })
-      .finally(() => {
-        this.dataLoading = false;
-      });
+    this.getGroupMember();
   },
   methods: {
     getContainer() {
@@ -214,6 +199,27 @@ export default {
     handleClickDelete(row) {
       this.deleteIdx = row.rowIndex;
       this.confirmVisible = true;
+    },
+    getGroupMember(){
+      this.dataLoading = true;
+      this.$request
+        .get('/api/get-log3-list')
+        .then((res) => {
+          if (res.code === 0) {
+            const { list = [] } = res.data;
+            this.data = list;
+            this.pagination = {
+              ...this.pagination,
+              total: list.length,
+            };
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+        .finally(() => {
+          this.dataLoading = false;
+        });
     },
     onConfirmDelete() {
       // 真实业务请发起请求
