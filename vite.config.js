@@ -62,7 +62,11 @@ export default ({ mode }) => {
           VUE_APP_CDN_PATH: '',
         },
       }),
-      // monacoEditorPlugin(),
+      monacoEditorPlugin(
+        {
+          publicPath: 'https://static.govcloud.gtimg.com/static',
+        }
+      ),
     ],
 
     build: {
